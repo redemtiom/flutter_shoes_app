@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoesapp/src/pages/shoe_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,16 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Material App'),
-        ),
-        body: Center(
-          child: Container(
-            child: Text('Hola Mundo'),
-          ),
-        ),
-      ),
+      home: ShoePage(),
     );
   }
 }
