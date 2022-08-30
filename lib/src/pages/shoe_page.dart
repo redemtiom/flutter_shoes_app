@@ -14,18 +14,22 @@ class ShoePage extends StatelessWidget {
             height: 20.0,
           ),
           Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                ShoeSizePreview(),
-                ShoeDescription(
-                    title: 'Nike Air Max 720',
-                    description:
-                        "'The Nike Air Max 720 goes bigger than ever before with Nike's taller Air unit yet, offering more air underfoot for unimaginable, all-day comfort. Has Air Max gone too far? We hope so.'")
-              ],
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  Hero(
+                    tag: 'shoe-1',
+                    child: ShoeSizePreview()),
+                  ShoeDescription(
+                      title: 'Nike Air Max 720',
+                      description:
+                          "'The Nike Air Max 720 goes bigger than ever before with Nike's taller Air unit yet, offering more air underfoot for unimaginable, all-day comfort. Has Air Max gone too far? We hope so.'")
+                ],
+              ),
             ),
-          )),
+          ),
+          AddButtonCard(price: 180.0),
         ],
       ),
     );

@@ -1,19 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:shoesapp/src/pages/shoe_description_page.dart';
 
 class ShoeSizePreview extends StatelessWidget {
-  const ShoeSizePreview({Key? key}) : super(key: key);
+  const ShoeSizePreview({Key? key, this.fullscreen = false}) : super(key: key);
+
+  final bool fullscreen;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5.0),
-      child: Container(
-        width: double.infinity,
-        height: 430.0,
-        decoration: BoxDecoration(
-            color: Color(0xffFFCF53), borderRadius: BorderRadius.circular(50)),
-        child: Column(
-          children: [_ShadowShoe(), _ShoeSizes()],
+    return GestureDetector(
+      onTap: () {
+        if(!fullscreen){
+          Navigator.push(context, MaterialPageRoute(builder: ((context) => const ShoeDescriptionPage())));
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: (fullscreen) ? 5.0 : 30.0,
+          vertical: (fullscreen) ? 5.0 : 0,
+        ),
+        child: Container(
+          width: double.infinity,
+          height: (fullscreen) ? 410.0 : 430.0,
+          decoration: BoxDecoration(
+            color: const Color(0xffFFCF53),
+            borderRadius: (!fullscreen)
+                ? BorderRadius.circular(50)
+                : const BorderRadius.only(
+                    bottomLeft: Radius.circular(50.0),
+                    bottomRight: Radius.circular(50.0),
+                    topLeft: Radius.circular(40.0),
+                    topRight: Radius.circular(40.0)),
+          ),
+          child: Column(
+            children: [
+              _ShadowShoe(),
+              if (!fullscreen) _ShoeSizes(),
+            ],
+          ),
         ),
       ),
     );
@@ -64,7 +88,11 @@ class _ShoeSizeBox extends StatelessWidget {
           color: (isActive) ? Color(0xffF1A23A) : Colors.white,
           borderRadius: BorderRadius.circular(10.0),
           boxShadow: [
-            if(isActive) BoxShadow(color: Color(0xffF1A23A), blurRadius: 10.0, offset: Offset(0,5)) 
+            if (isActive)
+              BoxShadow(
+                  color: Color(0xffF1A23A),
+                  blurRadius: 10.0,
+                  offset: Offset(0, 5))
           ]),
       child: Text(
         '${size.toString().replaceAll('.0', '')}',
