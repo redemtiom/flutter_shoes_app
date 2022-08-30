@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shoesapp/src/models/shoe_model.dart';
 import 'package:shoesapp/src/pages/shoe_description_page.dart';
 
 class ShoeSizePreview extends StatelessWidget {
@@ -10,8 +12,11 @@ class ShoeSizePreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if(!fullscreen){
-          Navigator.push(context, MaterialPageRoute(builder: ((context) => const ShoeDescriptionPage())));
+        if (!fullscreen) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: ((context) => const ShoeDescriptionPage())));
         }
       },
       child: Padding(
@@ -77,29 +82,38 @@ class _ShoeSizeBox extends StatelessWidget {
 
   final double size;
   final bool isActive;
-  //#EE9D26
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 45.0,
-      height: 45.0,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          color: (isActive) ? Color(0xffF1A23A) : Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            if (isActive)
-              BoxShadow(
-                  color: Color(0xffF1A23A),
-                  blurRadius: 10.0,
-                  offset: Offset(0, 5))
-          ]),
-      child: Text(
-        '${size.toString().replaceAll('.0', '')}',
-        style: TextStyle(
-            color: (isActive) ? Colors.white : Color(0xffF1A23A),
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold),
+    final shoeModel = Provider.of<ShoeModel>(context);
+
+    return GestureDetector(
+      onTap: () {
+        //final shoeModel = Provider.of<ShoeModel>(context, listen: false);
+        shoeModel.size = size;
+      },
+      child: Container(
+        width: 45.0,
+        height: 45.0,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: (size == shoeModel.size) ? Color(0xffF1A23A) : Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              if (size == shoeModel.size)
+                BoxShadow(
+                    color: Color(0xffF1A23A),
+                    blurRadius: 10.0,
+                    offset: Offset(0, 5))
+            ]),
+        child: Text(
+          '${size.toString().replaceAll('.0', '')}',
+          style: TextStyle(
+              color:
+                  (size == shoeModel.size) ? Colors.white : Color(0xffF1A23A),
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
@@ -110,6 +124,8 @@ class _ShadowShoe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final shoeModel = Provider.of<ShoeModel>(context);
+
     return Padding(
       padding: const EdgeInsets.all(50.0),
       child: Stack(
@@ -120,7 +136,7 @@ class _ShadowShoe extends StatelessWidget {
             child: _Shadow(),
           ),
           Image(
-            image: AssetImage('assets/imgs/azul.png'),
+            image: AssetImage(shoeModel.assetImage),
           )
         ],
       ),
